@@ -9,15 +9,6 @@ import {ILensHub} from './interfaces/ILensHub.sol';
 import {DataTypes} from './interfaces/libraries/DataTypes.sol';
 import {PoolKey} from "@uniswap/v4-core/contracts/types/PoolKey.sol";
 
-// struct PostData {
-//         uint256 profileId;
-//         string contentURI;
-//         address collectModule;
-//         bytes collectModuleInitData;
-//         address referenceModule;
-//         bytes referenceModuleInitData;
-// }
-
 /**
  * LensPostHook
  * This Hook is to report swap and position change to lens protocol.

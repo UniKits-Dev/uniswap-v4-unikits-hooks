@@ -1,7 +1,30 @@
-# v4-template
-### **A template for writing Uniswap v4 Hooks 🦄**
+# UniKits
 
-[`Use this Template`](https://github.com/saucepoint/v4-template/generate)
+UniKits are a series of tools to enhance UniSwap v4 Hooks. It's aimed to empower Uniswap-v4 Hooks with the following functions:
+
+* *Auth to Swap*
+* *Swap to Share*
+* etc..
+
+### Auth to Swap
+
+*Auth to Swap* means the user have to own a specificly identity before you can swap on a specific pool.
+
+Following identity provider can be supported:
+
+* Lens Profile: [LensAuthHook.sol](./src/LensAuthHook.sol)
+* ENS (WIP)
+* Worldcoin ID (WIP)
+* etc..
+
+## Swap to Share
+
+*Swap to Share* enables the posibility for the pool to interact with on-chain social platforms.
+
+* [LensPostHook.sol](./src/LensPostHook.sol)
+* etc..
+
+## Usage
 
 1. The example hook [Counter.sol](src/Counter.sol) demonstrates the `beforeSwap()` and `afterSwap()` hooks
 2. The test template [Counter.t.sol](test/Counter.t.sol) preconfigures the v4 pool manager, test tokens, and test liquidity.
@@ -39,3 +62,7 @@ Additional resources:
 
 [v4-core](https://github.com/uniswap/v4-core)
 
+## Thanks
+
+* [v4-template](https://github.com/saucepoint/v4-template)
+* [uniswap-v4-custom-pool](uniswap-v4-custom-pool)
