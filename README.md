@@ -4,8 +4,8 @@ UniKits are a series of hooks and tools to enhance the functionality of UniSwap 
 
 * *Auth to Swap*
 * *Swap to Share*
-* Swap to Collect (for Future)
-* Swap to Governance (for Future)
+* Swap to Collect (in Future)
+* Swap to Governance (in Future)
 * etc..
 
 ### Auth to Swap
@@ -53,6 +53,8 @@ Because v4 exceeds the bytecode limit of Ethereum and it's *business licensed*, 
 # start anvil, with a larger code limit
 anvil --code-size-limit 30000
 
+# Replace lensHub address in the deploy scripts first
+
 # in a new terminal
 # deploy Lens Auth Hook
 forge script script/DeployLensAuthHook.s.sol \
@@ -72,6 +74,9 @@ forge script script/DeployLensPostHook.s.sol \
 
 ```
 
+## Arbitrum Local testnet deployment
+
+A local arbitrum testnet has been launched and used to deploy the smart contracts.
 ---
 
 Additional resources:
