@@ -12,6 +12,5 @@ docs/
 
 # Dotenv file
 .env
-*.sh
 node_modules
 

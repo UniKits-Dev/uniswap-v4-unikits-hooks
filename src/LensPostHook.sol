@@ -20,8 +20,9 @@ contract LensPostHook is BaseHook {
     address collectModule;
     address referenceModule;
 
-    event NoDefaultLensProfileSet(address sender);
-    event LensShared(address sender, uint256 pubId);
+    event NoDefaultLensProfileSet(address user);
+    event ModifyPositionLensShared(address user, uint256 profileId, uint256 pubId);
+    event SwapLensShared(address user, uint256 profileId, uint256 pubId);
 
     constructor(IPoolManager _poolManager, address _lensHubAddress) BaseHook(_poolManager) {
         lensHub = _lensHubAddress;
@@ -60,16 +61,17 @@ contract LensPostHook is BaseHook {
     // }
 
     function afterModifyPosition(
-        address sender,
+        address,
         PoolKey calldata,
         IPoolManager.ModifyPositionParams calldata,
         BalanceDelta,
-        bytes calldata
+        bytes calldata data
     ) external override returns (bytes4) {
-        uint256 profileId = getDefaultProfileId(sender);
+        address user = abi.decode(data, (address));
+        uint256 profileId = getDefaultProfileId(user);
         // if profile id is 0, it means no lens profile id mapped and will not trigger further actions.
         if (profileId == 0) {
-            emit NoDefaultLensProfileSet(sender);
+            emit NoDefaultLensProfileSet(user);
             return LensPostHook.afterModifyPosition.selector;
         }
         string memory topic = 'mp';
@@ -82,11 +84,30 @@ contract LensPostHook is BaseHook {
             referenceModuleInitData: ''
         });
         uint256 pubId = ILensHub(lensHub).post(postData);
-        emit LensShared(sender, pubId);
+        emit ModifyPositionLensShared(user, profileId, pubId);
         return LensPostHook.afterModifyPosition.selector;
     }
 
-    function afterSwap(address, PoolKey calldata, IPoolManager.SwapParams calldata, BalanceDelta, bytes calldata) external override returns (bytes4) {
+    function afterSwap(address, PoolKey calldata, IPoolManager.SwapParams calldata, BalanceDelta, bytes calldata data) external override returns (bytes4) {
+        address user = abi.decode(data, (address));
+        
+        uint256 profileId = getDefaultProfileId(user);
+        // if profile id is 0, it means no lens profile id mapped and will not trigger further actions.
+        if (profileId == 0) {
+            emit NoDefaultLensProfileSet(user);
+            return LensPostHook.afterSwap.selector;
+        }
+        string memory topic = 'swap';
+        DataTypes.PostData memory postData = DataTypes.PostData({
+            profileId: profileId,
+            contentURI: topic, // composeLensContentURI(topic, key, params, delta),
+            collectModule: collectModule,
+            collectModuleInitData: '',
+            referenceModule: referenceModule,
+            referenceModuleInitData: ''
+        });
+        uint256 pubId = ILensHub(lensHub).post(postData);
+        emit SwapLensShared(user, profileId, pubId);
         return LensPostHook.afterSwap.selector;
     }
  

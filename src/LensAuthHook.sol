@@ -20,6 +20,8 @@ contract LensAuthHook is BaseHook {
     address referenceModule;
 
     error NoDefaultLensProfileSet();
+    event LensAuthPassed(address user);
+    event LensAuthFailed(address user);
 
     constructor(IPoolManager _poolManager, address _lensHubAddress) BaseHook(_poolManager) {
         lensHub = _lensHubAddress;
@@ -47,33 +49,40 @@ contract LensAuthHook is BaseHook {
         return ILensHub(lensHub).defaultProfile(wallet);
     }
 
-    function isAuthPass(address sender) internal view returns (bool) {
-        uint256 profileId = getDefaultProfileId(sender);
+    function isAuthPass(address user) internal view returns (bool) {
+        uint256 profileId = getDefaultProfileId(user);
         if (profileId == 0) {
             return false;
         }
+
         return true;
     }
 
-    function beforeSwap(address sender, PoolKey calldata, IPoolManager.SwapParams calldata, bytes calldata)
+    function beforeSwap(address, PoolKey calldata, IPoolManager.SwapParams calldata, bytes calldata data)
         external
         override
         returns (bytes4)
     {
-        if (!isAuthPass(sender)) {
+        address user = abi.decode(data, (address));
+        if (!isAuthPass(user)) {
+            emit LensAuthFailed(user);
             revert NoDefaultLensProfileSet();
         }
+        emit LensAuthPassed(user);
         return BaseHook.beforeSwap.selector;
     }
     
-    function beforeModifyPosition(address sender, PoolKey calldata, IPoolManager.ModifyPositionParams calldata, bytes calldata)
+    function beforeModifyPosition(address, PoolKey calldata, IPoolManager.ModifyPositionParams calldata, bytes calldata data)
         external
         override
         returns (bytes4)
     {
-        if (!isAuthPass(sender)) {
+        address user = abi.decode(data, (address));
+        if (!isAuthPass(user)) {
+            emit LensAuthFailed(user);
             revert NoDefaultLensProfileSet();
         }
+        emit LensAuthPassed(user);
         return BaseHook.beforeModifyPosition.selector;
     }
  

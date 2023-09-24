@@ -69,9 +69,9 @@ contract PoolManagerTester {
         
         BalanceDelta delta;
         if (data.actionType == ActionType.actionModifyPosition) {
-            delta = poolManager.modifyPosition(data.key, abi.decode(data.actionData, (IPoolManager.ModifyPositionParams)), ZERO_BYTES);
+            delta = poolManager.modifyPosition(data.key, abi.decode(data.actionData, (IPoolManager.ModifyPositionParams)), abi.encode(data.sender));
         } else if (data.actionType == ActionType.actionSwap) {
-            delta = poolManager.swap(data.key, abi.decode(data.actionData, (IPoolManager.SwapParams)), ZERO_BYTES);
+            delta = poolManager.swap(data.key, abi.decode(data.actionData, (IPoolManager.SwapParams)), abi.encode(data.sender));
         } else {
             revert InvalidActionType();
         }
