@@ -1,4 +1,4 @@
-# UniKits
+# UniKits -  Uniswap v4 hooks and tools
 
 UniKits are a series of hooks and tools to enhance the functionality of UniSwap v4 Hooks. It's aimed to empower Uniswap-v4 Hooks with the following features:
 
