@@ -77,6 +77,7 @@ forge script script/DeployLensPostHook.s.sol \
 ## Arbitrum Local testnet deployment
 
 A local arbitrum testnet has been launched and used to deploy the smart contracts.
+
 ---
 
 Additional resources:
