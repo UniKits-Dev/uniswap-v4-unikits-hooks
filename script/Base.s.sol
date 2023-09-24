@@ -18,7 +18,7 @@ abstract contract BaseScript is Script {
 
     constructor() {
         mnemonic = vm.envOr("MNEMONIC", TEST_MNEMONIC);
-        (deployer,) = deriveRememberKey({ mnemonic: mnemonic, index: 0 });
+        (deployer,) = deriveRememberKey({ mnemonic: mnemonic, index: 3 });
     }
 
     modifier broadcaster() {

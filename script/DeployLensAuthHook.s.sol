@@ -49,7 +49,7 @@ contract DeployLensAuthHookScript is BaseScript {
         uint160 sqrtPriceLimitX96ToSet = 3266570274706945504500000000000;
 
         // Deploy Hooks
-        address lensHubAddress = 0xa82fF9aFd8f496c3d6ac40E2a0F282E47488CFc9;
+        address lensHubAddress = 0x00CAC06Dd0BB4103f8b62D280fE9BCEE8f26fD59;
         // LensAuthHook lensAuthHook = new LensAuthHook(poolManager, lensHubAddress);
         
         uint160 flags = uint160(
@@ -80,8 +80,8 @@ contract DeployLensAuthHookScript is BaseScript {
         tokenB.approve(address(tester), 100 ether);
 
         // modifyPosition
-        tester.runMP(73781, 74959, 1 ether); // 1600 1800
+        tester.runMP(73781, 74959, 1 ether, new bytes(0)); // 1600 1800
         // Swap
-        tester.runSwap(true, 100, SQRT_RATIO_1_1);
+        tester.runSwap(true, 100, SQRT_RATIO_1_1, new bytes(0));
     }
 }

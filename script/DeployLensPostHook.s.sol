@@ -49,7 +49,7 @@ contract DeployLensPostHookScript is BaseScript {
         uint160 sqrtPriceLimitX96ToSet = 3266570274706945504500000000000;
 
         // Deploy Hooks
-        address lensHubAddress = 0xa82fF9aFd8f496c3d6ac40E2a0F282E47488CFc9;
+        address lensHubAddress = 0x00CAC06Dd0BB4103f8b62D280fE9BCEE8f26fD59;
         // LensPostHook lensPostHook = new LensPostHook(poolManager, lensHubAddress);
         
         uint160 flags = uint160(
@@ -59,7 +59,7 @@ contract DeployLensPostHookScript is BaseScript {
 
         (address hookAddressPreCaculated, uint256 salt) = HookDeployer.mineSalt(CREATE2_DEPLOYER, flags, hookBytecode);
         LensPostHook lensPostHook = new LensPostHook{salt: bytes32(salt)}(IPoolManager(address(poolManager)), address(lensHubAddress));
-        require(address(lensPostHook) == hookAddressPreCaculated, "CounterScript: hook address mismatch");
+        require(address(lensPostHook) == hookAddressPreCaculated, "DeployLensPostHookScript: hook address mismatch");
 
         // Hooks End
         // address hookAddressPreCaculated = address(lensPostHook);
@@ -80,8 +80,11 @@ contract DeployLensPostHookScript is BaseScript {
         tokenB.approve(address(tester), 100 ether);
 
         // modifyPosition
-        tester.runMP(73781, 74959, 1 ether); // 1600 1800
+        bytes extraDataMP = new bytes(0);
+        bytes extraDataSwap = new bytes(0);
+
+        tester.runMP(73781, 74959, 1 ether, extraDataMP); // 1600 1800
         // Swap
-        tester.runSwap(true, 100, SQRT_RATIO_1_1);
+        tester.runSwap(true, 100, SQRT_RATIO_1_1, extraDataSwap);
     }
 }

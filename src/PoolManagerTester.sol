@@ -30,6 +30,7 @@ contract PoolManagerTester {
         PoolKey key;
         ActionType actionType;
         bytes actionData;
+        bytes extraData;
     }
 
     constructor(address poolManagerAddress, PoolKey memory key) {
@@ -40,25 +41,25 @@ contract PoolManagerTester {
     /**
      * Run the ModifyPosition operation
      */
-    function runMP(int24 tickLower, int24 tickUpper, int256 liquidityDelta) external returns (bytes memory result) {
+    function runMP(int24 tickLower, int24 tickUpper, int256 liquidityDelta, bytes calldata extraData) external returns (bytes memory result) {
         IPoolManager.ModifyPositionParams memory mpParams = IPoolManager.ModifyPositionParams({
             tickLower: tickLower,   
             tickUpper: tickUpper,
             liquidityDelta: liquidityDelta
         });
-        return poolManager.lock(abi.encode(GenericCallbackData(msg.sender, poolKey, ActionType.actionModifyPosition, abi.encode(mpParams))));
+        return poolManager.lock(abi.encode(GenericCallbackData(msg.sender, poolKey, ActionType.actionModifyPosition, abi.encode(mpParams), extraData)));
     }
     
     /**
      * Run the Swap
      */
-    function runSwap(bool zeroForOne, int256 amountSpecified, uint160 sqrtPriceLimitX96) external returns (bytes memory result) {
+    function runSwap(bool zeroForOne, int256 amountSpecified, uint160 sqrtPriceLimitX96, bytes calldata extraData) external returns (bytes memory result) {
         IPoolManager.SwapParams memory swapParams = IPoolManager.SwapParams({
             zeroForOne: zeroForOne,
             amountSpecified: amountSpecified,
             sqrtPriceLimitX96: sqrtPriceLimitX96
         });
-        return poolManager.lock(abi.encode(GenericCallbackData(msg.sender, poolKey, ActionType.actionSwap, abi.encode(swapParams))));
+        return poolManager.lock(abi.encode(GenericCallbackData(msg.sender, poolKey, ActionType.actionSwap, abi.encode(swapParams), extraData)));
     }
 
     function lockAcquired(bytes calldata rawData) external returns (bytes memory) {
@@ -69,9 +70,9 @@ contract PoolManagerTester {
         
         BalanceDelta delta;
         if (data.actionType == ActionType.actionModifyPosition) {
-            delta = poolManager.modifyPosition(data.key, abi.decode(data.actionData, (IPoolManager.ModifyPositionParams)), ZERO_BYTES);
+            delta = poolManager.modifyPosition(data.key, abi.decode(data.actionData, (IPoolManager.ModifyPositionParams)), abi.encode(data.sender, data.extraData));
         } else if (data.actionType == ActionType.actionSwap) {
-            delta = poolManager.swap(data.key, abi.decode(data.actionData, (IPoolManager.SwapParams)), ZERO_BYTES);
+            delta = poolManager.swap(data.key, abi.decode(data.actionData, (IPoolManager.SwapParams)), abi.encode(data.sender, data.extraData));
         } else {
             revert InvalidActionType();
         }
