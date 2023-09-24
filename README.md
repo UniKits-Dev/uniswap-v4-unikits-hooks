@@ -1,6 +1,6 @@
 # UniKits
 
-UniKits are a series of tools to enhance UniSwap v4 Hooks. It's aimed to empower Uniswap-v4 Hooks with the following functions:
+UniKits are a series of tools to enhance UniSwap v4 Hooks. It's aimed to empower Uniswap-v4 Hooks with the following features:
 
 * *Auth to Swap*
 * *Swap to Share*
@@ -13,7 +13,7 @@ UniKits are a series of tools to enhance UniSwap v4 Hooks. It's aimed to empower
 Following identity provider can be supported:
 
 * Lens Profile: [LensAuthHook.sol](./src/LensAuthHook.sol)
-* ENS (WIP)
+* ENS (WIP): [ENSAuthHook.sol](./src/ENSAuthHook.sol) (WIP)
 * Worldcoin ID (WIP)
 * etc..
 
@@ -26,10 +26,11 @@ Following identity provider can be supported:
 
 ## Usage
 
-1. The example hook [Counter.sol](src/Counter.sol) demonstrates the `beforeSwap()` and `afterSwap()` hooks
-2. The test template [Counter.t.sol](test/Counter.t.sol) preconfigures the v4 pool manager, test tokens, and test liquidity.
+* Replace LensHub address in deploy script
 
----
+* Follow the local development guide to deploy
+
+* Run it with tester
 
 ### Local Development (Anvil)
 
@@ -40,18 +41,20 @@ forge install
 forge test
 ```
 
-Because v4 exceeds the bytecode limit of Ethereum and it's *business licensed*, we can only deploy & test hooks on [anvil](https://book.getfoundry.sh/anvil/).
+Because v4 exceeds the bytecode limit of Ethereum and it's *business licensed*, we can only deploy & test hooks on [anvil](https://book.getfoundry.sh/anvil/) or other local testnet.
+
 
 ```bash
 # start anvil, with a larger code limit
 anvil --code-size-limit 30000
 
 # in a new terminal
-forge script script/Counter.s.sol \
+forge script script/DeployLensAuthHook.s.sol \
     --rpc-url http://localhost:8545 \
     --private-key 0xac0974bec39a17e36ba4a6b4d238ff944bacb478cbed5efcae784d7bf4f2ff80 \
     --code-size-limit 30000 \
     --broadcast
+    -vvvvv
 ```
 
 ---
@@ -62,7 +65,7 @@ Additional resources:
 
 [v4-core](https://github.com/uniswap/v4-core)
 
-## Thanks
+## Thanks to
 
 * [v4-template](https://github.com/saucepoint/v4-template)
 * [uniswap-v4-custom-pool](uniswap-v4-custom-pool)

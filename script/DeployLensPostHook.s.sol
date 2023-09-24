@@ -49,7 +49,7 @@ contract DeployLensPostHookScript is BaseScript {
         uint160 sqrtPriceLimitX96ToSet = 3266570274706945504500000000000;
 
         // Deploy Hooks
-        address lensHubAddress = 0x00CAC06Dd0BB4103f8b62D280fE9BCEE8f26fD59;
+        address lensHubAddress = 0xFCFE742e19790Dd67a627875ef8b45F17DB1DaC6;
         // LensPostHook lensPostHook = new LensPostHook(poolManager, lensHubAddress);
         
         uint160 flags = uint160(
@@ -79,9 +79,9 @@ contract DeployLensPostHookScript is BaseScript {
         tokenA.approve(address(tester), 100 ether);
         tokenB.approve(address(tester), 100 ether);
 
-        // modifyPosition
-        tester.runMP(73781, 74959, 1 ether); // 1600 1800
-        // Swap
-        tester.runSwap(true, 100, SQRT_RATIO_1_1);
+        // // modifyPosition
+        // tester.runMP(73781, 74959, 1 ether); // 1600 1800
+        // // Swap
+        // tester.runSwap(true, 100, SQRT_RATIO_1_1);
     }
 }

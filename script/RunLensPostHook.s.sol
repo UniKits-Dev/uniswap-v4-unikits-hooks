@@ -15,6 +15,8 @@ import {LensAuthHook} from "../src/LensAuthHook.sol";
 import {Hooks} from "@uniswap/v4-core/contracts/libraries/Hooks.sol";
 import {HookDeployer} from "../test/utils/HookDeployer.sol";
 import {IPoolManagerTester} from "../src/interfaces/IPoolManagerTester.sol";
+import {ILensPostHook} from "../src/interfaces/ILensPostHook.sol";
+import {ILensHub} from "../src/interfaces/ILensHub.sol";
 
 
 contract RunLensPostHookScript is BaseScript {
@@ -28,12 +30,17 @@ contract RunLensPostHookScript is BaseScript {
 
     function run() public broadcaster {
         
-        address testerAddress = address(0xE915164570b027C2A0FfadcB1B672192E35BF008);
+        address testerAddress = address(0x7503823054fa9adD9C276852413a2bC58A5cfFde);
         IPoolManagerTester tester = IPoolManagerTester(testerAddress);
 
+        // ILensPostHook(0x1470336c7222D5E0316311a551E8CC3a257de92C).setDefaultProfile(1);
         // modifyPosition
         tester.runMP(73781, 74959, 1 ether); // 1600 1800
         // Swap
         tester.runSwap(true, 100, SQRT_RATIO_1_1);
     }
 }
+
+// PoolManager: 0xE2953d904AAFc12bf45736018Babe3b64994CA84
+// PoolManager Tester: 0x7503823054fa9adD9C276852413a2bC58A5cfFde
+// LensPostHook: 0x1470336c7222D5E0316311a551E8CC3a257de92C
