@@ -16,8 +16,9 @@ abstract contract Resolver {
 }
 
 /**
- * ENSAuthHook
- * Only allow user with a ENS profile to trade
+ * ENSAuthHook (WIP)
+ *src/ENSAuthHook.sol
+  Only allow user with a ENS profile to trade
  */
 contract ENSAuthHook is BaseHook {
     
