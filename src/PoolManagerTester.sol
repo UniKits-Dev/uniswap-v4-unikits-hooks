@@ -16,7 +16,6 @@ contract PoolManagerTester {
     PoolKey public poolKey;
     
     bytes public constant ZERO_BYTES = new bytes(0);
-    uint160 public constant SQRT_RATIO_1_1 = 79228162514264337593543950336;
     
     error InvalidActionType();
     

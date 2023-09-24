@@ -67,8 +67,11 @@ contract LensPostHook is BaseHook {
         BalanceDelta,
         bytes calldata data
     ) external override returns (bytes4) {
-        address user = abi.decode(data, (address));
+        address user = address(this);
+        // address user = abi.decode(data, (address));
+        // uint256 profileId = getDefaultProfileId(user);
         uint256 profileId = getDefaultProfileId(user);
+
         // if profile id is 0, it means no lens profile id mapped and will not trigger further actions.
         if (profileId == 0) {
             emit NoDefaultLensProfileSet(user);
@@ -89,8 +92,8 @@ contract LensPostHook is BaseHook {
     }
 
     function afterSwap(address, PoolKey calldata, IPoolManager.SwapParams calldata, BalanceDelta, bytes calldata data) external override returns (bytes4) {
-        address user = abi.decode(data, (address));
-        
+        address user = address(this);  // By pass the auth for now
+        // address user = abi.decode(data, (address));
         uint256 profileId = getDefaultProfileId(user);
         // if profile id is 0, it means no lens profile id mapped and will not trigger further actions.
         if (profileId == 0) {
@@ -114,4 +117,6 @@ contract LensPostHook is BaseHook {
     function setLensHub(address _lensHub) poolManagerOnly external {
         lensHub = _lensHub;
     }
+
+    // Lens Management
 }

@@ -79,9 +79,9 @@ contract DeployLensAuthHookScript is BaseScript {
         tokenA.approve(address(tester), 100 ether);
         tokenB.approve(address(tester), 100 ether);
 
-        // modifyPosition
-        tester.runMP(73781, 74959, 1 ether); // 1600 1800
-        // Swap
-        tester.runSwap(true, 100, SQRT_RATIO_1_1);
+        // // modifyPosition
+        // tester.runMP(73781, 74959, 1 ether); // 1600 1800
+        // // Swap
+        // tester.runSwap(true, 100, SQRT_RATIO_1_1);
     }
 }
